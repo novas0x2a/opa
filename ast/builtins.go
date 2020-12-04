@@ -150,6 +150,7 @@ var DefaultBuiltins = [...]*Builtin{
 	ObjectRemove,
 	ObjectFilter,
 	ObjectGet,
+	ObjectCopy,
 
 	// JSON Object Manipulation
 	JSONFilter,
@@ -1181,7 +1182,7 @@ var JSONPatch = &Builtin{
 	),
 }
 
-// ObjectGet returns takes an object and returns a value under its key if
+// ObjectGet takes an object and returns a value under its key if
 // present, otherwise it returns the default.
 var ObjectGet = &Builtin{
 	Name: "object.get",
@@ -1190,6 +1191,17 @@ var ObjectGet = &Builtin{
 			types.NewObject(nil, types.NewDynamicProperty(types.A, types.A)),
 			types.A,
 			types.A,
+		),
+		types.A,
+	),
+}
+
+// ObjectCopy takes an object and returns a deep copy of it.
+var ObjectCopy = &Builtin{
+	Name: "object.copy",
+	Decl: types.NewFunction(
+		types.Args(
+			types.NewObject(nil, types.NewDynamicProperty(types.A, types.A)),
 		),
 		types.A,
 	),

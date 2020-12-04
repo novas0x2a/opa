@@ -88,6 +88,15 @@ func builtinObjectGet(_ BuiltinContext, operands []*ast.Term, iter func(*ast.Ter
 	return iter(operands[2])
 }
 
+func builtinObjectCopy(_ BuiltinContext, operands []*ast.Term, iter func(*ast.Term) error) error {
+	object, err := builtins.ObjectOperand(operands[0].Value, 1)
+	if err != nil {
+		return err
+	}
+
+	return iter(object.Copy())
+}
+
 // getObjectKeysParam returns a set of key values
 // from a supplied ast array, object, set value
 func getObjectKeysParam(arrayOrSet ast.Value) (ast.Set, error) {
@@ -137,4 +146,5 @@ func init() {
 	RegisterBuiltinFunc(ast.ObjectRemove.Name, builtinObjectRemove)
 	RegisterBuiltinFunc(ast.ObjectFilter.Name, builtinObjectFilter)
 	RegisterBuiltinFunc(ast.ObjectGet.Name, builtinObjectGet)
+	RegisterBuiltinFunc(ast.ObjectCopy.Name, builtinObjectCopy)
 }
